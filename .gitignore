@@ -1,0 +1,23 @@
+# Environment files
+.env
+app/.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Database
+firedb.sqlite
+app/firedb.sqlite
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Build
+build/
+frontend/build/
+
+# OS
+.DS_Store
