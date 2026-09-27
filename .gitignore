@@ -10,6 +10,7 @@ __pycache__/
 # Database
 firedb.sqlite
 app/firedb.sqlite
+app/cache/
 
 # Node
 node_modules/
