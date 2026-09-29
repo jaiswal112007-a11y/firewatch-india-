@@ -8,7 +8,7 @@ function Alerts() {
 
   const fetchAlerts = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/api/alerts');
+      const res = await axios.get('https://firewatch-india-production.up.railway.app/api/alerts');
       setAlerts(res.data.alerts);
     } catch (err) {
       console.error(err);
@@ -17,7 +17,7 @@ function Alerts() {
 
   const fetchChronic = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/api/alerts/chronic');
+      const res = await axios.get('https://firewatch-india-production.up.railway.app/api/alerts/chronic');
       setChronic(res.data.chronic_sources);
     } catch (err) {
       console.error(err);
