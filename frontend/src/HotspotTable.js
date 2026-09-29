@@ -16,7 +16,7 @@ function HotspotTable() {
 
   const fetchHotspots = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/api/hotspots');
+     const res = await axios.get('https://firewatch-india-production.up.railway.app/api/hotspots');
       setHotspots(res.data.hotspots);
     } catch (err) {
       console.error(err);
