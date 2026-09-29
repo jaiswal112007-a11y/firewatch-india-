@@ -1,5 +1,6 @@
 import sys
 import os
+import threading
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from fastapi import FastAPI
@@ -8,7 +9,7 @@ from contextlib import asynccontextmanager
 from database import engine, Base
 from routes import hotspots, alerts
 
-async def startup_fetch():
+def bg_fetch():
     try:
         from services.firms_fetch import fetch_and_store
         print("Auto-fetching hotspots on startup...")
@@ -19,7 +20,7 @@ async def startup_fetch():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await startup_fetch()
+    threading.Thread(target=bg_fetch, daemon=True).start()
     yield
 
 # Create tables in DB
