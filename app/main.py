@@ -1,10 +1,26 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 from database import engine, Base
 from routes import hotspots, alerts
+
+async def startup_fetch():
+    try:
+        from services.firms_fetch import fetch_and_store
+        print("Auto-fetching hotspots on startup...")
+        fetch_and_store()
+        print("Startup fetch complete!")
+    except Exception as e:
+        print(f"Startup fetch failed: {e}")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await startup_fetch()
+    yield
 
 # Create tables in DB
 Base.metadata.create_all(bind=engine)
@@ -12,10 +28,10 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Fire Classification API",
     description="AI based industrial fire detection using NASA FIRMS",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
-# Allow React frontend to connect
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,15 +40,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Register routes
 app.include_router(hotspots.router, prefix="/api", tags=["Hotspots"])
 app.include_router(alerts.router, prefix="/api", tags=["Alerts"])
-
 
 @app.get("/")
 def root():
     return {"message": "Fire Classification API is running"}
-
 
 @app.get("/health")
 def health():
