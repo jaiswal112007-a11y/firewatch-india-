@@ -13,7 +13,7 @@ function LandingPage() {
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/alerts/summary')
+    axios.get('https://firewatch-india-production.up.railway.app/api/alerts/summary')
       .then(res => {
         setStats({
           total: res.data.total_hotspots,
