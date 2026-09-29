@@ -11,9 +11,9 @@ from routes import hotspots, alerts
 
 def bg_fetch():
     try:
-        from services.firms_fetch import fetch_and_store
+        from services.firms_fetch import fetch_hotspots
         print("Auto-fetching hotspots on startup...")
-        fetch_and_store()
+        fetch_hotspots()
         print("Startup fetch complete!")
     except Exception as e:
         print(f"Startup fetch failed: {e}")
