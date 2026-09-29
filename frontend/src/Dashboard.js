@@ -35,7 +35,7 @@ function Dashboard() {
 
   const fetchHotspots = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/api/hotspots');
+      const res = await axios.get('https://firewatch-india-production.up.railway.app/api/hotspots');
       const data = res.data.hotspots;
       setAllHotspots(data);
 
@@ -56,10 +56,10 @@ function Dashboard() {
   const fetchFromFIRMS = async () => {
     setLoading(true);
     try {
-      await axios.post('http://127.0.0.1:8000/api/hotspots/fetch?days=5');
+      await axios.post('https://firewatch-india-production.up.railway.app/api/hotspots/fetch?days=5');
       await fetchHotspots();
 
-      const alertRes = await axios.get('http://127.0.0.1:8000/api/alerts');
+      const alertRes = await axios.get('https://firewatch-india-production.up.railway.app/api/alerts');
       const alerts = alertRes.data.alerts;
 
       if (alerts.length > 0) {
@@ -94,13 +94,13 @@ function Dashboard() {
     updateSummary(filtered);
   };
 
-  useEffect(() => {
+ useEffect(() => {
     fetchHotspots();
     if (Notification.permission === 'default') {
       Notification.requestPermission();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   const filteredHotspots = filter === 'All'
     ? hotspots
     : hotspots.filter(h => h.fire_type === filter);
